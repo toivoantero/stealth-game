@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Square from './Square';
 import './styles.css'
-import character from './character.png';
-import moveRadius from './moveRadius.png';
-import spiderweb from './spiderweb.png';
-import obstacle from './obstacle.png';
+import character from './kuvat/character.png';
+import moveRadius from './kuvat/moveRadius.png';
+import spiderweb from './kuvat/spiderweb.png';
+import obstacle from './kuvat/obstacle.png';
 import EndScreen from './EndScreen';
 import Level from './Level';
 

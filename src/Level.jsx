@@ -2,22 +2,30 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Square from './Square';
 import './styles.css'
-import character from './character.png';
-import spiderweb from './spiderweb.png';
-import obstacle from './laatikko.png';
-import stairs from './portaat.png';
-import lamp from './lamppu.png'
-import lamp_bg from './lamppu_tausta.png'
+import character from './kuvat/character.png';
+import spiderweb from './kuvat/spiderweb.png';
+import obstacle from './kuvat/laatikko.png';
+import stairs from './kuvat/portaat.png';
+import lamp from './kuvat/lamppu.png'
+import lamp_bg from './kuvat/lamppu_tausta.png'
 import EndScreen from './EndScreen';
 
-// Eri kentät voisi tehdä joko niin, että jokaisella on oma funktio ja tiedosto, 
-// tai että samaan Level-funktioon tuodaan erilaiset kenttämääreet Json-objektina.
+// Eri kentät voisi tehdä niin, että samaan Level-funktioon tuodaan erilaiset kenttämääreet Json-objektina.
 function Level() {
   const light = 'rgba(255,255,190,1';
   const levelSize = 10;
   const startSquare = 51;
   const goalSquare = 48;
-  const obstacleLocations = [33, 52, 65];
+  const obstacleLocations = [33, 52, 65, 66];
+  const shadowLocations = {
+    32: "west",
+    51: "west",
+    64: "west",
+    74: "southwest",
+    75: "southwest",
+    76: "south"
+  };
+  const lampLocation = { upLeft: 17, upRight: 18, downLeft: 27, downRight: 28 };
   const [squares, setSquares] = useState(Array(levelSize * levelSize).fill(null));
   const [currentLocation, setCurrentLocation] = useState(null);
   const [spotlight, setSpotlight] = useState([null, light, null, null]);
@@ -62,7 +70,8 @@ function Level() {
     const indicesObstacle = [
       ...Array.from({ length: 1 }, (_, i) => obstacleLocations[0] + i),
       ...Array.from({ length: 1 }, (_, i) => obstacleLocations[1] + i),
-      ...Array.from({ length: 2 }, (_, i) => obstacleLocations[2] + i)
+      ...Array.from({ length: 1 }, (_, i) => obstacleLocations[2] + i),
+      ...Array.from({ length: 1 }, (_, i) => obstacleLocations[3] + i)
     ];
     indicesObstacle.forEach(index => {
       initialSquares[index] = obstacle;
@@ -117,7 +126,7 @@ function Level() {
     setSquares(nextSquares);
     setCurrentLocation(nextLocation);
 
-    // Jos pelihahmo pääsee maaliin, niin meneillään oleva taso loppuu, ja nakymä siirtyy 
+    // Jos pelihahmo pääsee maaliin, niin meneillään oleva taso loppuu, ja näkymä siirtyy 
     if (nextLocation === goalSquare) {
       navigateTo('/endscreen');
     }
@@ -150,15 +159,54 @@ function Level() {
     });
   }
 
-  // Valokeila välillä näkyy, ja välillä ei
-  /*function spotlightOnOff() {
-    //let light = 'rgba(255,255,111,0.8)';
-    if (spotlight == null) {
-      setSpotlight(light);
-    } else if (spotlight == light) {
-      setSpotlight(null);
+  // Tarkistaa osuuko valokeila pelihahmoon ja mikäli osuu, lopettaa pelisuorituksen
+  function spotlightOnCharacter() {
+    let lightedAreaWhole = Array.from({ length: levelSize * levelSize }, (_, index) => index).filter(value => value >= 20).filter(value => value <= 79);
+    let lightedAreaLeft;
+    let lightedAreaRight;
+
+    if (lampLocation.downLeft % 10 >= 0) {
+      const excludeNumbers = Array.from(
+        { length: 10 - (lampLocation.downLeft % 10) - 1 },
+        (_, i) => lampLocation.downLeft % 10 + 1 + i
+      );
+      lightedAreaLeft = lightedAreaWhole.filter((value) => !excludeNumbers.includes(value % 10));
     }
-  }*/
+
+    if (lampLocation.downRight % 10 >= 1) {
+      const excludeNumbers = Array.from(
+        { length: lampLocation.downRight % 10 },
+        (_, i) => i
+      );
+      lightedAreaRight = lightedAreaWhole.filter((value) => !excludeNumbers.includes(value % 10));
+    }
+
+    const safeFromLight = [
+      {
+        outsideBeamzone: lightedAreaLeft,
+        behindObstacle: shadowLocations,
+        goalSquare: goalSquare
+      },
+      {
+        outsideBeamzone: lightedAreaRight,
+        behindObstacle: shadowLocations,
+        goalSquare: goalSquare
+      }
+    ];
+
+    safeFromLight.forEach((config, index) => {
+      if (
+        spotlight[index] === light &&
+        !(
+          config.outsideBeamzone.includes(currentLocation) ||
+          currentLocation in config.behindObstacle ||
+          config.goalSquare === currentLocation
+        )
+      ) {
+        setGameOver(true);
+      }
+    });
+  }
 
   function spotlightOnOff() {
     setSpotlight(prevSpotlight => {
@@ -169,58 +217,41 @@ function Level() {
     setCurrentSpotlightIndex(prevIndex => (prevIndex + 1) % 4);
   }
 
-  function reorderSpotlightToDivs() {
-    let [firstlight, secondlight, thirdlight, fourthlight] = [0, 1, 2, 3];
-    let [firstDiv, secondDiv, thirdDiv, fourthDiv] = [thirdlight, fourthlight, secondlight, firstlight];
-    let order = [firstDiv, secondDiv, thirdDiv, fourthDiv];
-    return order;
-  }
+  const graphicsManager = {
+    reorderSpotlightToDivs: () => {
+      let [firstlight, secondlight, thirdlight, fourthlight] = [0, 1, 2, 3];
+      let [firstDiv, secondDiv, thirdDiv, fourthDiv] = [thirdlight, fourthlight, secondlight, firstlight];
+      return [firstDiv, secondDiv, thirdDiv, fourthDiv];
+    },
 
-  function isSafeFromLight(currentLocation, safeFromLight) {
-    return safeFromLight.some(item => item.outsideBeamzone.includes(currentLocation)) ||
-      safeFromLight.some(item => item.behindObstacle.includes(currentLocation)) ||
-      safeFromLight.goalSquare === currentLocation;
-  }
+    spinSpotlight: () => {
+      if (spotlight[0]) {
+        return 'scaleX(-1)';
+      } else if (spotlight[1]) {
+        return 'scaleX(1)';
+      } else if (spotlight[2]) {
+        return 'scaleY(-1)';
+      } else if (spotlight[3]) {
+        return 'scale(-1, -1)';
+      } else {
+        return 'scaleX(-1)';
+      }
+    },
 
-  // Tarkistaa osuuko valokeila pelihahmoon ja mikäli osuu, lopettaa pelisuorituksen
-  function spotlightOnCharacter() {
-    const safeFromLight0 = {
-      outsideBeamzone: [
-        20, 21, 22, 23, 24, 25, 26, 27,
-        30, 31, 32, 33, 34, 35, 36, 37,
-        40, 41, 42, 43, 44, 45, 46, 47,
-        50, 51, 52, 53, 54, 55, 56, 57,
-        60, 61, 62, 63, 64, 65, 66, 67,
-        70, 71, 72, 73, 74, 75, 76, 77
-      ],
-      behindObstacle: [obstacleLocations[0] - 1, obstacleLocations[1] - 1, obstacleLocations[2] - 1],
-      goalSquare: goalSquare
-    };
+    indicesOfShadows: (index) => {
+      let indices = shadowLocations;
+      return index in indices ? indices : null;
+    },
 
-    const safeFromLight1 = {
-      outsideBeamzone: [28, 29, 38, 39, 48, 49, 58, 59, 68, 69, 78, 79],
-      behindObstacle: [obstacleLocations[0] - 1, obstacleLocations[1] - 1, obstacleLocations[2] - 1],
-      goalSquare: goalSquare
-    };
-
-    if (spotlight[1] === light && !isSafeFromLight(currentLocation, [safeFromLight1])) {
-      setGameOver(true);
+    characterNearGoal: () => {
+      return (
+        squares[goalSquare - 1] === character ||
+        squares[goalSquare - levelSize] === character ||
+        squares[goalSquare + 1] === character ||
+        squares[goalSquare + levelSize] === character
+      );
     }
-    if (spotlight[0] === light && !isSafeFromLight(currentLocation, [safeFromLight0])) {
-      setGameOver(true);
-    }
-  }
-
-  function characterNearGoal() {
-    if (squares[goalSquare - 1] === character
-      || squares[goalSquare - levelSize] === character
-      || squares[goalSquare + 1] === character
-      || squares[goalSquare + levelSize] === character
-    ) {
-      return true;
-    }
-  }
-
+  };
   /*
   useEffect-käynnistäjät 
   tästä alaspäin
@@ -254,37 +285,12 @@ function Level() {
     };
   }, [handleKeyPress, gameOver]);
 
-  function testi() {
-    console.log(currentLocation);
-  }
-
-  function indicesOfShadows(index) {
-    let indices = [32,51,64,74,75,76];
-    if (indices.includes(index)) {
-      return indices;
-    } else {
-      return null;
-    }
-  }
-
-  function spinSpotlight() {
-    if (spotlight[0]) {
-      return 'scaleX(-1)';
-    } else if (spotlight[1]) {
-      return 'scaleX(1)';
-    } else if (spotlight[2]) {
-      return 'scaleY(-1)';
-    } else if (spotlight[3]) {
-      return 'scale(-1, -1)';
-    }
-  }
-
   return (
     <div className='background'>
       <div className='boardgrid'>
         <div className='superficial-graphics'>
           <div className='spotlight-all'>
-            {reorderSpotlightToDivs().map((value, index) => (
+            {graphicsManager.reorderSpotlightToDivs().map((value, index) => (
               <div
                 key={index}
                 className='spotlight-angle'
@@ -297,11 +303,11 @@ function Level() {
         {squares.map((value, index) => (
           <Square
             key={index}
-            indicesOfShadows={indicesOfShadows(index)}
+            indicesOfShadows={graphicsManager.indicesOfShadows(index)}
             value={value}
             index={index}
             onSquareClick={() => handleClick(index)}
-            characterNearGoal={characterNearGoal()}
+            characterNearGoal={graphicsManager.characterNearGoal()}
             spotlight={spotlight}
           />
         ))}
@@ -310,12 +316,14 @@ function Level() {
         <div className='spotlight-all'>
           <div className='spotlight-angle'></div>
           <div className='spotlight-angle'>
+            {/* Tämä lamp_bg johtuu vain siitä, etten ole vielä viitsinyt
+            korjata lampun png-kuvaa oikeaan sävyyn...  */}
             <img src={lamp_bg} style={{
               position: 'absolute',
               height: '50px',
               width: '50px',
               translate: '-25px 75px',
-              transform: spinSpotlight()
+              transform: graphicsManager.spinSpotlight()
             }} />
             <img src={lamp} style={{
               position: 'absolute',
@@ -323,7 +331,7 @@ function Level() {
               height: '50px',
               width: '50px',
               translate: '-25px 75px',
-              transform: spinSpotlight()
+              transform: graphicsManager.spinSpotlight()
             }} />
           </div>
           <div className='spotlight-angle'></div>
@@ -343,31 +351,3 @@ function Level() {
 }
 
 export default Level
-
-//div-hässäkän jonka sisällä spottivalo on, voisi pakata funktioon,
-//ja hakea aina eri grafiikoille uuden kalvon, ja niitä tarvitsee laittaa päällekkäin.
-//samoin kuin squarella oma grafiikan käsittely tiedosto, niin muilla grafiikka-kalvoilla olisi.
-
-//jokaiselle spottivalon suunnalle pitää tehdä omat kytkökset: turva-alueet; eikä voi olla on/off, 
-//vaan on jatkuvasti ON, suuntaa vaihdellen, tai sitten jokaisella suunnalla oma on/off.
-
-/*
-function spotlightOnCharacter() {
-    let safeFromLight = [{
-      outsideBeamzone: [28, 29, 38, 39, 48, 49, 58, 59, 68, 69, 78, 79],
-      behindObstacle: [obstacleLocations[0] - 1, obstacleLocations[1] - 1, obstacleLocations[2] - 1],
-      goalSquare: goalSquare
-    }];
-    if (spotlight[1] === light) {
-      if (
-        safeFromLight.some(item => item.outsideBeamzone.includes(currentLocation))
-        || safeFromLight.some(item => item.behindObstacle.includes(currentLocation))
-        || safeFromLight.goalSquare === goalSquare
-      ) {
-        return false;
-      } else {
-        setGameOver(true);
-      }
-    }
-  }
-    */
