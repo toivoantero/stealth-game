@@ -27,7 +27,7 @@ body {
   background-position: left top;
 	background-repeat: no-repeat;
 	background-size: cover;
-
+  z-index: 33;
   position: relative;
 }
 
