@@ -340,9 +340,21 @@ function Level() {
       </div>
       {(gameOver) && (
         <div className='superficial-graphics'>
-          <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', textAlign: 'center' }}>
-            <p style={{ color: 'white', fontSize: '33px' }}>Hälytys!<br></br>Sinut on löydetty!</p>
-            <button onClick={initializeLevel}>Yritä uudestaan</button>
+          <div style={{ backgroundColor: 'rgba(222,55,55,0.6)', textAlign: 'center', lineHeight: '1.5', padding: '20px 20px 40px 20px' }}>
+            <p className='press-start-2p-regular' style={{ fontSize: '20px', color: 'white', textAlign: 'center' }}>Hälytys!<br></br>Sinut on löydetty!</p>
+            <button
+              onClick={initializeLevel}
+              className='press-start-2p-regular'
+              style={{
+                fontSize: '13px',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                color: 'white',
+                border: '3px solid white',
+                display: 'inline-block',
+                padding: '20px',
+                cursor: 'pointer',
+                boxShadow: '7px 7px rgb(255, 255, 255)',
+              }}>Yritä uudestaan</button>
           </div>
         </div>
       )}
