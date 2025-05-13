@@ -67,7 +67,7 @@ function Square({ indicesOfShadows, value, index, onSquareClick, characterNearGo
     <div
       className="square"
       onClick={onSquareClick}
-      style={{ backgroundColor: getBgc() }}
+      style={{ backgroundColor: getBgc(), cursor: 'pointer' }}
     >
       {/* <div style={{ display: 'flex', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', outline: 'solid 1px darkred' }}>
         <span>{index}</span>

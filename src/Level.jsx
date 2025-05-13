@@ -45,7 +45,6 @@ function Level() {
     } else if (event.key === 'ArrowRight') {
       nextLocation = currentLocation + 1;
     }
-
     updateLevel(nextLocation);
   }, [gameOver, currentLocation]);
 
@@ -161,7 +160,11 @@ function Level() {
 
   // Tarkistaa osuuko valokeila pelihahmoon ja mikäli osuu, lopettaa pelisuorituksen
   function spotlightOnCharacter() {
-    let lightedAreaWhole = Array.from({ length: levelSize * levelSize }, (_, index) => index).filter(value => value >= 20).filter(value => value <= 79);
+    let lightedAreaWhole = Array.from(
+      { length: levelSize * levelSize },
+      (_, index) => index)
+      .filter(value => value >= 20)
+      .filter(value => value <= 79);
     let lightedAreaLeft;
     let lightedAreaRight;
 
@@ -340,8 +343,16 @@ function Level() {
       </div>
       {(gameOver) && (
         <div className='superficial-graphics'>
-          <div style={{ backgroundColor: 'rgba(222,55,55,0.6)', textAlign: 'center', lineHeight: '1.5', padding: '20px 20px 40px 20px' }}>
-            <p className='press-start-2p-regular' style={{ fontSize: '20px', color: 'white', textAlign: 'center' }}>Hälytys!<br></br>Sinut on löydetty!</p>
+          <div style={{
+            backgroundColor: 'rgba(222,55,55,0.6)',
+            textAlign: 'center',
+            lineHeight: '1.5',
+            padding: '20px 20px 40px 20px'
+          }}>
+            <p className='press-start-2p-regular'
+              style={{ fontSize: '20px', color: 'white', textAlign: 'center' }}>
+              Hälytys!<br></br>Sinut on löydetty!
+            </p>
             <button
               onClick={initializeLevel}
               className='press-start-2p-regular'
