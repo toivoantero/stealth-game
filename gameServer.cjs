@@ -14,9 +14,10 @@ server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// Staattisten tiedostojen palveleminen (esim. index.html, index.js, jne.)
-app.use(express.static(path.join(__dirname, 'index.html')));
-  
+// Staattisten tiedostojen palveleminen
+app.use(express.static(path.join(__dirname))); // Palvelee kaikki tiedostot juurikansiosta
+
+// Pääsivun reititys
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html')); // Lähetetään index.html juurikansiosta
 });
