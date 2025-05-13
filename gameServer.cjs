@@ -3,13 +3,9 @@ const http = require('http');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
-const cors = require('cors');
-let helmet = require('helmet');
 
-app.use(helmet({ crossOriginResourcePolicy: false }))
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
 app.use(express.json());
-app.use(cors());
 
 // Luo HTTP-palvelin
 const server = http.createServer(app);
