@@ -161,6 +161,10 @@ body {
   margin: 0 0 60px 0;
 }
 
+.endscreen-button-mobile {
+  display: none;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -232,8 +236,24 @@ body {
     height: 100vw;
   }
 
-  .endscreen-button {
+  .endscreen-button-mobile {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    background-color: rgb(20, 20, 30);
+    color: white;
+    border: 3px solid white;
+    display: inline-block;
+    padding: 20px;
+    cursor: pointer;
+    box-shadow: 7px 7px rgb(255, 255, 255);
+    line-height: 1.5;
     margin: 0 0 30px 0;
+  }
+
+  .endscreen-button {
+    display: none;
   }
 
   .alarm-message {

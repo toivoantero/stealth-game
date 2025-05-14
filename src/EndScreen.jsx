@@ -44,10 +44,16 @@ function EndScreen() {
       }}>
         <p style={{ margin: 0, padding: '20px 0', fontSize: '50px', color: 'white' }}>Loppu</p>
         {showButton && (
-          <button
-            onClick={handleClick}
-            className='fadeIn endscreen-button'>
-            Uusi peli?<br></br>Paina ⏎ Enter</button>
+          <div>
+            <button
+              onClick={handleClick}
+              className='fadeIn endscreen-button'>
+              Uusi peli?<br></br>Paina ⏎ Enter</button>
+            <button
+              onClick={handleClick}
+              className='fadeIn endscreen-button-mobile'>
+              Uusi peli?</button>
+          </div>
         )}
       </div>
     </div>

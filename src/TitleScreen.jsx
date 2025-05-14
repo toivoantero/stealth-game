@@ -25,11 +25,11 @@ function TitleScreen() {
 
   return (
     <div className='titlescreen'>
-      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9698;</span>
-      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9699;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0', lineHeight: '0' }}>&#9698;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0', lineHeight: '0' }}>&#9699;</span>
       <p style={{ margin: '0.2em' }}>Tiedustelijan<br></br>----kosto----</p>
-      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9701;</span>
-      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9700;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0', lineHeight: '0' }}>&#9701;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0', lineHeight: '0' }}>&#9700;</span>
       <br></br>
       <button
         onClick={handleClick}
