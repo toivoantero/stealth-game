@@ -24,21 +24,21 @@ function TitleScreen() {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <p className='press-start-2p-regular' style={{ fontSize: '50px', color: 'white', textAlign: 'center' }}>Tiedustelijan<br></br>----kosto----</p>
+    <div className='titlescreen'>
+      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9698;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9699;</span>
+      <p style={{ margin: '0.2em' }}>Tiedustelijan<br></br>----kosto----</p>
+      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9701;</span>
+      <span style={{ fontSize: '60px', padding: '0 10px' }}>&#9700;</span>
+      <br></br>
       <button
         onClick={handleClick}
-        className='press-start-2p-regular'
-        style={{
-          fontSize: '30px',
-          backgroundColor: 'rgb(20, 20, 30)',
-          color: 'white',
-          border: '3px solid white',
-          display: 'inline-block',
-          padding: '25px',
-          cursor: 'pointer',
-          boxShadow: '7px 7px rgb(255, 255, 255)',         
-        }}>Paina ⏎ Enter<br></br>aloittaaksesi pelin</button>
+        className='titlescreen-button'>
+        Paina ⏎ Enter<br></br>aloittaaksesi pelin</button>
+      <button
+        onClick={handleClick}
+        className='titlescreen-button-mobile'>
+        Aloita peli tästä</button>
     </div>
   );
 }

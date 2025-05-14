@@ -42,11 +42,11 @@ function EndScreen() {
         alignItems: 'center',
         height: '100%',
       }}>
-        <p className='press-start-2p-regular' style={{ margin: 0, padding: '20px 0', fontSize: '50px', color: 'white', textAlign: 'center' }}>Loppu</p>
+        <p style={{ margin: 0, padding: '20px 0', fontSize: '50px', color: 'white' }}>Loppu</p>
         {showButton && (
           <button
             onClick={handleClick}
-            className='press-start-2p-regular fadeIn endscreen-button'>
+            className='fadeIn endscreen-button'>
             Uusi peli?<br></br>Paina ⏎ Enter</button>
         )}
       </div>

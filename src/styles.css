@@ -77,12 +77,6 @@ body {
   translate: -25px 75px;
 }
 
-.press-start-2p-regular {
-  font-family: "Press Start 2P", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .alarm-message {
   font-family: "Press Start 2P", system-ui;
   font-weight: 400;
@@ -111,7 +105,38 @@ body {
   box-shadow: 7px 7px rgb(255, 255, 255);
 }
 
+.titlescreen {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 50px;
+  color: white;
+  text-align: center;
+}
+
+.titlescreen-button {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+  background-color: rgb(20, 20, 30);
+  color: white;
+  border: 3px solid white;
+  display: inline-block;
+  padding: 25px;
+  margin: 25px 0 0 0;
+  cursor: pointer;
+  box-shadow: 7px 7px rgb(255, 255, 255);
+}
+
+.titlescreen-button-mobile {
+  display: none;
+}
+
 .endscreen {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
   background-size: cover;
   background-position: center;
   height: 500px;
@@ -121,6 +146,9 @@ body {
 }
 
 .endscreen-button {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
   font-size: 17px;
   background-color: rgb(20, 20, 30);
   color: white;
@@ -173,6 +201,30 @@ body {
     height: calc(100vw / 10);
     width: calc(100vw / 10);
     translate: calc(-100vw / 20) calc(100vw / 20 * 3);
+  }
+
+  .titlescreen {
+    font-size: 21px;
+  }
+
+  .titlescreen-button {
+    display: none;
+  }
+
+  .titlescreen-button-mobile {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    background-color: rgb(20, 20, 30);
+    color: white;
+    border: 3px solid white;
+    display: inline-block;
+    padding: 9px;
+    margin: 20px 0 0 0;
+    cursor: pointer;
+    box-shadow: 6px 6px rgb(255, 255, 255);
+    display: inline-block;
   }
 
   .endscreen {
