@@ -321,19 +321,11 @@ function Level() {
           <div className='spotlight-angle'>
             {/* Tämä lamp_bg johtuu vain siitä, etten ole vielä viitsinyt
             korjata lampun png-kuvaa oikeaan sävyyn...  */}
-            <img src={lamp_bg} style={{
-              position: 'absolute',
-              height: '50px',
-              width: '50px',
-              translate: '-25px 75px',
+            <img className='lamp' src={lamp_bg} style={{
               transform: graphicsManager.spinSpotlight()
             }} />
-            <img src={lamp} style={{
-              position: 'absolute',
+            <img className='lamp' src={lamp} style={{
               opacity: '0.7',
-              height: '50px',
-              width: '50px',
-              translate: '-25px 75px',
               transform: graphicsManager.spinSpotlight()
             }} />
           </div>
@@ -343,29 +335,14 @@ function Level() {
       </div>
       {(gameOver) && (
         <div className='superficial-graphics'>
-          <div style={{
-            backgroundColor: 'rgba(222,55,55,0.6)',
-            textAlign: 'center',
-            lineHeight: '1.5',
-            padding: '20px 20px 40px 20px'
-          }}>
-            <p className='press-start-2p-regular'
-              style={{ fontSize: '20px', color: 'white', textAlign: 'center' }}>
+          <div className='alarm-message'>
+            <p>
               Hälytys!<br></br>Sinut on löydetty!
             </p>
             <button
               onClick={initializeLevel}
-              className='press-start-2p-regular'
-              style={{
-                fontSize: '13px',
-                backgroundColor: 'rgba(255, 255, 255, 0)',
-                color: 'white',
-                border: '3px solid white',
-                display: 'inline-block',
-                padding: '20px',
-                cursor: 'pointer',
-                boxShadow: '7px 7px rgb(255, 255, 255)',
-              }}>Yritä uudestaan</button>
+              className='alarm-button'>
+              Yritä uudestaan</button>
           </div>
         </div>
       )}
