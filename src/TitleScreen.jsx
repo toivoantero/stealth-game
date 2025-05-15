@@ -38,7 +38,8 @@ function TitleScreen() {
         Paina ⏎ Enter<br></br>aloittaaksesi pelin</button>
       <button
         onClick={handleClick}
-        className='titlescreen-button-mobile'>
+        className='titlescreen-button-mobile'
+        style={{ marginBottom: '20vh' }}>
         Aloita peli tästä</button>
     </div>
   );
