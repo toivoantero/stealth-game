@@ -231,6 +231,11 @@ body {
     display: inline-block;
   }
 
+  .titlescreen img {
+    width: 70px;
+    height: auto;
+  }
+
   .endscreen {
     width: 100vw;
     height: 100vw;

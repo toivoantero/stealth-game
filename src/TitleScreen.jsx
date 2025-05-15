@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import logo from './kuvat/logo.svg';
 import './styles.css'
 
 function TitleScreen() {
@@ -25,11 +26,11 @@ function TitleScreen() {
 
   return (
     <div className='titlescreen'>
-      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0' }}>&#9698;</span>
-      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0' }}>&#9699;</span>
+      <img style={{ margin: '13px 10px' }} src={logo} alt='Logo'></img>
+      <img style={{ margin: '13px 10px', transform: 'scaleX(-1)' }} src={logo} alt='Logo'></img>        
       <p style={{ margin: '0.2em' }}>Tiedustelijan<br></br>----kosto----</p>
-      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0' }}>&#9701;</span>
-      <span style={{ fontSize: '60px', padding: '0 10px', margin: '0' }}>&#9700;</span>
+      <img style={{ margin: '13px 10px', transform: 'scaleY(-1)' }} src={logo} alt='Logo'></img>        
+      <img style={{ margin: '13px 10px', transform: 'scale(-1, -1)' }} src={logo} alt='Logo'></img>        
       <br></br>
       <button
         onClick={handleClick}
