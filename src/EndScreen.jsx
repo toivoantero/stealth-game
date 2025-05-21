@@ -34,7 +34,7 @@ function EndScreen() {
   }, []);
 
   return (
-    <div className='endscreen' style={{ backgroundColor: 'rgb(253,232,103)', backgroundImage: `url(${end})` }}>
+    <div className='endscreen' style={{ backgroundImage: `url(${end})` }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',

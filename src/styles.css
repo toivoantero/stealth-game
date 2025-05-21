@@ -137,6 +137,7 @@ body {
   font-family: "Press Start 2P", system-ui;
   font-weight: 400;
   font-style: normal;
+  background-color: rgb(253,232,103);
   background-size: cover;
   background-position: center;
   height: 500px;
@@ -237,8 +238,9 @@ body {
   }
 
   .endscreen {
-    width: 100vw;
+    width: calc(100vw - 10px);
     height: 100vw;
+    margin-bottom: 10vh;
   }
 
   .endscreen-button-mobile {
